@@ -29,4 +29,10 @@ class OrderItem(models.Model):
     price = models.DecimalField(max_digits=8, decimal_places=2)
 
     def __str__(self):
-        return f"{self.product_name} (x{self.quantity})"
+        return f"{self.product_name} from django.db import models
+
+class Restaurant(models.Model):
+    name = models.CharField(max_length=100)
+    address = models.TextField()
+    phone_number = models.CharField(max_length=15)
+    # other fields...(x{self.quantity})"
