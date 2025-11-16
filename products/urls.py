@@ -1,6 +1,8 @@
 from django.urls import path
-from .views import *
+from .views import MenuItemSearchViewSet
+
+menu_search_list = MenuItemSearchViewSet.as_view({'get': 'list'})
 
 urlpatterns = [
-    path('items/', ItemView.as_view(), name='item-list'),
+    path('menu-items/search/', menu_search_list, name='menuitem-search'),
 ]
