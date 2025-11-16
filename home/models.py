@@ -1,16 +1,22 @@
+port datetime
 from django.db import models
 
-class Ingredient(models.Model):
-    name = models.CharField(max_length=100)
+class DailySpecialManager(models.Manager):
+    def upcoming(self):
+        """
+        Returns DailySpecial objects where the date is today or in the future.
+        """
+        today = datetime.date.today()
+        return super().get_queryset().filter(date__gte=today)
 
-    def __str__(self):
-        return self.name
 
-
-class MenuItem(models.Model):
+class DailySpecial(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
-    ingredients = models.ManyToManyField(Ingredient, related_name="menu_items")
+    date = models.DateField()
+
+    # Attach the custom manager
+    objects = DailySpecialManager()
 
     def __str__(self):
-        return self.name
+        return f"{self.name} - {self.date}"
