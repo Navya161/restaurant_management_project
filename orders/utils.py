@@ -1,15 +1,18 @@
-from datetime import date
-from django.db.models import Sum
-from .models import Order  # Assumes Order model is in the same app
+rom decimal import Decimal, ROUND_HALF_UP
 
-def get_daily_sales_total(target_date):
+def calculate_tip_amount(order_total, tip_percentage):
     """
-    Returns the total sales for a given date by summing total_price of all orders created on that date.
-    If no orders are found, returns 0.
+    Calculates the tip amount for a given order total and tip percentage.
+
+    Args:
+        order_total (Decimal or float): The total bill before tip.
+        tip_percentage (int): The tip percentage (e.g., 15 for 15%).
+
+    Returns:
+        Decimal: Tip amount, rounded to two decimal places.
     """
-    result = (
-        Order.objects.filter(created_at__date=target_date)
-        .aggregate(total_sum=Sum('total_price'))
-    )
-    total = result['total_sum'] or 0
-    return total
+    # Ensure order_total is Decimal for precision
+    total = Decimal(str(order_total))
+    tip = (total * Decimal(tip_percentage) / Decimal('100')).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
+    return tip
+This 
