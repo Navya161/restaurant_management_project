@@ -1,17 +1,16 @@
 from django.db import models
 
-class DailySpecial(models.Model):
-    # assuming your existing fields, e.g.:
-    name = models.CharField(max_length=255)
-    description = models.TextField()
-    price = models.DecimalField(max_digits=6, decimal_places=2)
+class Ingredient(models.Model):
+    name = models.CharField(max_length=100)
 
-    @staticmethod
-    def get_random_special():
-        """
-        Returns a single random DailySpecial instance.
-        If no specials are available, returns None.
-        """
-        random_special = DailySpecial.objects.order_by('?').first()
-        return random_special
-Explanation
+    def __str__(self):
+        return self.name
+
+
+class MenuItem(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField(blank=True, null=True)
+    ingredients = models.ManyToManyField(Ingredient, related_name="menu_items")
+
+    def __str__(self):
+        return self.name
