@@ -1,8 +1,12 @@
-from django.urls import path
-from .views import MenuItemSearchViewSet
+from django.db import models
+from menu.models import MenuItem  # Adjust import based on actual app location
 
-menu_search_list = MenuItemSearchViewSet.as_view({'get': 'list'})
+class NutritionalInformation(models.Model):
+    menu_item = models.ForeignKey(MenuItem, on_delete=models.CASCADE, related_name='nutritional_info')
+    calories = models.IntegerField()
+    protein_grams = models.DecimalField(max_digits=5, decimal_places=2)
+    fat_grams = models.DecimalField(max_digits=5, decimal_places=2)
+    carbohydrate_grams = models.DecimalField(max_digits=5, decimal_places=2)
 
-urlpatterns = [
-    path('menu-items/search/', menu_search_list, name='menuitem-search'),
-]
+    def __str__(self):
+        return f"{self.menu_item.name} - {self.calories} kcal"
